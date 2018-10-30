@@ -1,0 +1,26 @@
+{
+  "name": "kakashi",
+  "version": "0.1.0",
+  "description": "Upload vendor assets to S3",
+  "main": "handler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vic-L/kakashi.git"
+  },
+  "author": "Vic-L",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vic-L/kakashi/issues"
+  },
+  "homepage": "https://github.com/Vic-L/kakashi#readme",
+  "devDependencies": {
+    "serverless-offline": "^3.30.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.344.0",
+    "axios": "^0.18.0"
+  }
+}
