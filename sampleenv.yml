@@ -1,0 +1,8 @@
+service: something
+awsProfile: something # from ~/.aws/credentials; refer to `http://docs.aws.amazon.com/cli/latest/userguide/cli-multiple-profiles.html`
+awsTagName: something # AWS tag to group resources together
+
+dev:
+  slackUrl: something
+production:
+  slackUrl: something
