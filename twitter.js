@@ -24,8 +24,9 @@ module.exports.call = async (event, context) => {
       ContentType: 'application/javascript; charset=utf-8',
       ACL: 'public-read',
     }
+    
     ///// twitter widget.js START /////
-    // download pinit_main file
+    // download widget file
     const downloadTwitterWidgetResp = await axios({
       method: 'GET',
       url: 'https://platform.twitter.com/widgets.js',
