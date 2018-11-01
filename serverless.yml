@@ -19,7 +19,8 @@ provider:
   name: aws
   runtime: nodejs8.10
   region: ${self:custom.region}
-  memorySize: 128
+  memorySize: 512
+  timeout: 30
   profile: ${self:custom.awsProfile} # aws named profile
   stage: ${opt:stage, 'dev'} # `sls deploy --stage production` if --stage is provided, else use dev
   stackTags: # Optional CF stack tags
