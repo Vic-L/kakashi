@@ -3,6 +3,7 @@ custom:
   awsProfile: ${file(env.yml):awsProfile}
   awsTagName: ${file(env.yml):awsTagName}
   slackUrl: ${file(env.yml):${opt:stage, 'dev'}.slackUrl}
+  pinitMainJsPath: ${file(env.yml):${opt:stage, 'dev'}.pinitMainJsPath}
 
 service: ${self:custom.service}
 
@@ -20,6 +21,7 @@ provider:
     Stage: ${opt:stage, 'dev'}
   environment:
     slackUrl: ${self:custom.slackUrl}
+    pinitMainJsPath: ${self:custom.pinitMainJsPath}
 
 functions:
   pinterest:

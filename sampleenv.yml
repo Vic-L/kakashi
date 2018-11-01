@@ -4,5 +4,7 @@ awsTagName: something # AWS tag to group resources together
 
 dev:
   slackUrl: something
+  pinitMainJsPath: something
 production:
   slackUrl: something
+  pinitMainJsPath: something
