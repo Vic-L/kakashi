@@ -40,7 +40,7 @@ module.exports.call = async (event, context) => {
 
     const attachment = {}
     attachment['text'] = 'Twitter widget vendor files uploaded successfully'
-    attachment['title'] = 'SUCCESS - Pinterest vendor files'
+    attachment['title'] = 'SUCCESS - Twitter vendor files'
     attachment['color'] = 'good'
     await PingSlack({
       slackUrl: process.env.slackUrl,
@@ -50,13 +50,13 @@ module.exports.call = async (event, context) => {
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: 'Successfully pinterest files uploaded to S3'
+        message: 'Successfully Twitter files uploaded to S3'
       }),
     }
   } catch (err) {
     const attachment = {}
-    attachment['text'] = `Error when uploading Pinterest vendor files\Message: ${err.message}`
-    attachment['title'] = 'FAILURE - Pinterest vendor files'
+    attachment['text'] = `Error when uploading Twitter vendor files\Message: ${err.message}`
+    attachment['title'] = 'FAILURE - Twitter vendor files'
     attachment['color'] = 'danger'
     await PingSlack({
       slackUrl: process.env.slackUrl,
