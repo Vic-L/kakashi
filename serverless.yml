@@ -27,6 +27,7 @@ provider:
     Stage: ${opt:stage, 'dev'}
   environment:
     slackUrl: ${self:custom.slackUrl}
+    slackChannel: ${self:custom.slackChannel}
     assetHostName: ${self:custom.assetHostName}
     pinitJsPath: ${self:custom.pinitJsPath}
     pinitMainJsPath: ${self:custom.pinitMainJsPath}

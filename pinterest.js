@@ -70,10 +70,19 @@ module.exports.call = async (event, context) => {
     await fs.unlink(pinitPath)
     ///// pinit file END /////
 
+    const attachment = {}
+    attachment['text'] = 'Pinterest vendor files uploaded successfully'
+    attachment['title'] = 'SUCCESS - Pinterest vendor files'
+    attachment['color'] = 'good'
+    await PingSlack({
+      slackUrl: process.env.slackUrl,
+      attachment: attachment,
+    })
+
     return {
       statusCode: 200,
       body: JSON.stringify({
-        message: 'downloaded and deleted file'
+        message: 'Successfully pinterest files uploaded to S3'
       }),
     }
   } catch (err) {
@@ -81,6 +90,16 @@ module.exports.call = async (event, context) => {
     if (pinitPath) {
       await fs.unlink(pinitPath)
     }
+
+    const attachment = {}
+    attachment['text'] = `Error when uploading Pinterest vendor files\Message: ${err.message}`
+    attachment['title'] = 'FAILURE - Pinterest vendor files'
+    attachment['color'] = 'danger'
+    await PingSlack({
+      slackUrl: process.env.slackUrl,
+      attachment: attachment,
+      channel: process.env.slackChannel,
+    })
 
     console.log('err', err)
     return {

@@ -4,6 +4,7 @@ awsTagName: something # AWS tag to group resources together
 
 dev:
   slackUrl: https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+  slackChannel: '#something'
   assetHostName: something.something.com
   pinitMainJsPath: something
   pinitJsPath: something
@@ -13,6 +14,7 @@ dev:
   s3SecretAccessKey: something
 production:
   slackUrl: https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+  slackChannel: '#something'
   assetHostName: something.something.com
   pinitMainJsPath: something
   pinitJsPath: something
