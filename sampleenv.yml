@@ -3,8 +3,20 @@ awsProfile: something # from ~/.aws/credentials; refer to `http://docs.aws.amazo
 awsTagName: something # AWS tag to group resources together
 
 dev:
-  slackUrl: something
+  slackUrl: https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+  assetHostName: something.something.com
   pinitMainJsPath: something
+  pinitJsPath: something
+  s3Region: something
+  s3Bucket: something
+  s3AccessKeyId: something
+  s3SecretAccessKey: something
 production:
-  slackUrl: something
+  slackUrl: https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX
+  assetHostName: something.something.com
   pinitMainJsPath: something
+  pinitJsPath: something
+  s3Region: something
+  s3Bucket: something
+  s3AccessKeyId: something
+  s3SecretAccessKey: something

@@ -3,7 +3,13 @@ custom:
   awsProfile: ${file(env.yml):awsProfile}
   awsTagName: ${file(env.yml):awsTagName}
   slackUrl: ${file(env.yml):${opt:stage, 'dev'}.slackUrl}
+  assetHostName: ${file(env.yml):${opt:stage, 'dev'}.assetHostName}
+  pinitJsPath: ${file(env.yml):${opt:stage, 'dev'}.pinitJsPath}
   pinitMainJsPath: ${file(env.yml):${opt:stage, 'dev'}.pinitMainJsPath}
+  s3Bucket: ${file(env.yml):${opt:stage, 'dev'}.s3Bucket}
+  s3Region: ${file(env.yml):${opt:stage, 'dev'}.s3Region}
+  s3AccessKeyId: ${file(env.yml):${opt:stage, 'dev'}.s3AccessKeyId}
+  s3SecretAccessKey: ${file(env.yml):${opt:stage, 'dev'}.s3SecretAccessKey}
 
 service: ${self:custom.service}
 
@@ -21,7 +27,13 @@ provider:
     Stage: ${opt:stage, 'dev'}
   environment:
     slackUrl: ${self:custom.slackUrl}
+    assetHostName: ${self:custom.assetHostName}
+    pinitJsPath: ${self:custom.pinitJsPath}
     pinitMainJsPath: ${self:custom.pinitMainJsPath}
+    s3Bucket: ${self:custom.s3Bucket}
+    s3Region: ${self:custom.s3Region}
+    s3AccessKeyId: ${self:custom.s3AccessKeyId}
+    s3SecretAccessKey: ${self:custom.s3SecretAccessKey}
 
 functions:
   pinterest:
