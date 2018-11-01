@@ -5,6 +5,7 @@ custom:
   slackUrl: ${file(env.yml):${opt:stage, 'dev'}.slackUrl}
   assetHostName: ${file(env.yml):${opt:stage, 'dev'}.assetHostName}
   pinitJsPath: ${file(env.yml):${opt:stage, 'dev'}.pinitJsPath}
+  twitterWidgetJsPath: ${file(env.yml):${opt:stage, 'dev'}.twitterWidgetJsPath}
   pinitMainJsPath: ${file(env.yml):${opt:stage, 'dev'}.pinitMainJsPath}
   s3Bucket: ${file(env.yml):${opt:stage, 'dev'}.s3Bucket}
   s3Region: ${file(env.yml):${opt:stage, 'dev'}.s3Region}
@@ -29,6 +30,7 @@ provider:
     slackUrl: ${self:custom.slackUrl}
     slackChannel: ${self:custom.slackChannel}
     assetHostName: ${self:custom.assetHostName}
+    twitterWidgetJsPath: ${self:custom.twitterWidgetJsPath}
     pinitJsPath: ${self:custom.pinitJsPath}
     pinitMainJsPath: ${self:custom.pinitMainJsPath}
     s3Bucket: ${self:custom.s3Bucket}
@@ -41,7 +43,11 @@ functions:
     handler: pinterest.call
     events:
       - schedule: rate(1 day)
-      # uncomment for development
+  twitter:
+    handler: twitter.call
+    events:
+      - schedule: rate(1 day)
+      ## uncomment for development
       # - http:
       #     path: '/test'
       #     method: get
