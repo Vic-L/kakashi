@@ -40,11 +40,12 @@ functions:
   pinterest:
     handler: pinterest.call
     events:
-      - http:
-          path: '/test'
-          method: get
-          cors: true
-
+      - schedule: rate(1 day)
+      # uncomment for development
+      # - http:
+      #     path: '/test'
+      #     method: get
+      #     cors: true
 
 plugins:
   - serverless-offline
