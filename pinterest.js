@@ -7,6 +7,10 @@ const replace = require('replace-in-file')
 const PingSlack = require('./services/pingSlack').pingSlack
 
 module.exports.call = async (event, context) => {
+  //  define paths here so that can unlink file in catch block
+  const pinitMainPath = path.resolve(__dirname, 'tmp', 'pinit_main.js')
+  const pinitPath = path.resolve(__dirname, 'tmp', 'pinit.js')
+
   try {
     ///// pinit_main START /////
     // download pinit_main file
@@ -15,7 +19,6 @@ module.exports.call = async (event, context) => {
       url: 'https://assets.pinterest.com/js/pinit_main.js',
       responseType: 'stream'
     })
-    const pinitMainPath = path.resolve(__dirname, 'tmp', 'pinit_main.js')
 
     // write to file
     await downloadPinitMainResp.data.pipe(fs.createWriteStream(pinitMainPath))
@@ -33,8 +36,6 @@ module.exports.call = async (event, context) => {
       url: 'https://assets.pinterest.com/js/pinit.js',
       responseType: 'stream'
     })
-
-    const pinitPath = path.resolve(__dirname, 'tmp', 'pinit.js')
 
     // write to file
     await downloadPinitResp.data.pipe(fs.createWriteStream(pinitPath))
@@ -61,10 +62,10 @@ module.exports.call = async (event, context) => {
     }
   } catch (err) {
     // delete files if fail
-    if (pinitMainPath != undefined) {
+    if (pinitMainPath) {
       await fs.unlink(pinitMainPath)
     }
-    if (pinitPath != undefined) {
+    if (pinitPath) {
       await fs.unlink(pinitPath)
     }
 
