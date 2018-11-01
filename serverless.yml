@@ -2,15 +2,7 @@ custom:
   service: ${file(env.yml):service}
   awsProfile: ${file(env.yml):awsProfile}
   awsTagName: ${file(env.yml):awsTagName}
-  slackUrl: ${file(env.yml):${opt:stage, 'dev'}.slackUrl}
-  assetHostName: ${file(env.yml):${opt:stage, 'dev'}.assetHostName}
-  pinitJsPath: ${file(env.yml):${opt:stage, 'dev'}.pinitJsPath}
-  twitterWidgetJsPath: ${file(env.yml):${opt:stage, 'dev'}.twitterWidgetJsPath}
-  pinitMainJsPath: ${file(env.yml):${opt:stage, 'dev'}.pinitMainJsPath}
-  s3Bucket: ${file(env.yml):${opt:stage, 'dev'}.s3Bucket}
-  s3Region: ${file(env.yml):${opt:stage, 'dev'}.s3Region}
-  s3AccessKeyId: ${file(env.yml):${opt:stage, 'dev'}.s3AccessKeyId}
-  s3SecretAccessKey: ${file(env.yml):${opt:stage, 'dev'}.s3SecretAccessKey}
+  envVar: ${file(env.yml):${opt:stage, 'dev'}}
 
 service: ${self:custom.service}
 
@@ -27,16 +19,16 @@ provider:
     Name: ${self:custom.awsTagName}
     Stage: ${opt:stage, 'dev'}
   environment:
-    slackUrl: ${self:custom.slackUrl}
-    slackChannel: ${self:custom.slackChannel}
-    assetHostName: ${self:custom.assetHostName}
-    twitterWidgetJsPath: ${self:custom.twitterWidgetJsPath}
-    pinitJsPath: ${self:custom.pinitJsPath}
-    pinitMainJsPath: ${self:custom.pinitMainJsPath}
-    s3Bucket: ${self:custom.s3Bucket}
-    s3Region: ${self:custom.s3Region}
-    s3AccessKeyId: ${self:custom.s3AccessKeyId}
-    s3SecretAccessKey: ${self:custom.s3SecretAccessKey}
+    slackUrl: ${self:custom.envVar.slackUrl}
+    slackChannel: ${self:custom.envVar.slackChannel}
+    assetHostName: ${self:custom.envVar.assetHostName}
+    twitterWidgetJsPath: ${self:custom.envVar.twitterWidgetJsPath}
+    pinitJsPath: ${self:custom.envVar.pinitJsPath}
+    pinitMainJsPath: ${self:custom.envVar.pinitMainJsPath}
+    s3Bucket: ${self:custom.envVar.s3Bucket}
+    s3Region: ${self:custom.envVar.s3Region}
+    s3AccessKeyId: ${self:custom.envVar.s3AccessKeyId}
+    s3SecretAccessKey: ${self:custom.envVar.s3SecretAccessKey}
 
 functions:
   pinterest:
@@ -48,10 +40,10 @@ functions:
     events:
       - schedule: rate(1 day)
       ## uncomment for development
-      # - http:
-      #     path: '/test'
-      #     method: get
-      #     cors: true
+      - http:
+          path: '/test'
+          method: get
+          cors: true
 
 plugins:
   - serverless-offline
