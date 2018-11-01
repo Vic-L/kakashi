@@ -4,6 +4,9 @@ const axios = require('axios')
 
 module.exports.pingSlack = async ({
   slackUrl,
+  attachment,
+  username,
+  channel,
 }) => {
   console.log('pinging to slack: ', process.env.slackUrl)
 
@@ -13,15 +16,13 @@ module.exports.pingSlack = async ({
       'Access-Control-Allow-Origin': '*',
     }
   }
-  const attachment = {}
-  attachment['text'] = 'test'
-  attachment['color'] = '#5bc0de' // default boostrap color for info
-  attachment['title'] = 'Pinterest vendor files has error'
+
+  attachment['color'] = attachment['color'] || '#5bc0de' // default boostrap color for info
 
   const params = { attachments: [attachment] }
-  // uncomment below and fill in custom channel
-  // params['channel'] = ''
-  params['username'] = 'Pinterest kakashi'
+  // each webhook has a default channel; will ping that channel if no channel argument provided
+  params['channel'] = channel || params['channel']
+  params['username'] = username || 'Kakashi'
 
   const result = await axios.post(process.env.slackUrl, params, headers)
 
