@@ -5,13 +5,28 @@ const fs = require('fs')
 const path = require('path')
 const replace = require('replace-in-file')
 const PingSlack = require('./services/pingSlack').pingSlack
+const aws = require('aws-sdk')
 
 module.exports.call = async (event, context) => {
+  // TODO validate pinitJsPath does not start with /
+  // TODO validate pinitMainJsPath does not start with /
+
   //  define paths here so that can unlink file in catch block
-  const pinitMainPath = path.resolve(__dirname, 'tmp', 'pinit_main.js')
   const pinitPath = path.resolve(__dirname, 'tmp', 'pinit.js')
 
   try {
+    // s3 setup
+    const s3 = new aws.S3({
+      accessKeyId: process.env.s3AccessKeyId,
+      secretAccessKey: process.env.s3SecretAccessKey,
+      region: process.env.s3Region
+    })
+    const s3Params = {
+      Bucket: process.env.s3Bucket,
+      CacheControl: 'public,max-age=604800',
+      ContentType: 'application/javascript; charset=utf-8',
+      ACL: 'public-read',
+    }
     ///// pinit_main START /////
     // download pinit_main file
     const downloadPinitMainResp = await axios({
@@ -20,13 +35,10 @@ module.exports.call = async (event, context) => {
       responseType: 'stream'
     })
 
-    // write to file
-    await downloadPinitMainResp.data.pipe(fs.createWriteStream(pinitMainPath))
-
-    // upload to s3
-
-    // delete file
-    await fs.unlink(pinitMainPath)
+    // stream into s3
+    s3Params['Key'] = process.env.pinitMainJsPath
+    s3Params['Body'] = downloadPinitMainResp.data
+    await s3.upload(s3Params).promise()
     ///// pinit_main END /////
 
     ///// pinit file START /////
@@ -44,11 +56,15 @@ module.exports.call = async (event, context) => {
     const options = {
       files: pinitPath,
       from: '//assets.pinterest.com/js/pinit_main.js',
-      to: process.env.pinitMainJsPath,
+      to: `//${process.env.assetHostName}/${process.env.pinitMainJsPath}`,
     }
     await replace(options)
 
-    // upload file to S3
+    // stream file to S3
+    const pinitStream = await fs.createReadStream(pinitPath)
+    s3Params['Key'] = process.env.pinitJsPath
+    s3Params['Body'] = pinitStream
+    await s3.upload(s3Params).promise()
 
     // delete file
     await fs.unlink(pinitPath)
@@ -62,9 +78,6 @@ module.exports.call = async (event, context) => {
     }
   } catch (err) {
     // delete files if fail
-    if (pinitMainPath) {
-      await fs.unlink(pinitMainPath)
-    }
     if (pinitPath) {
       await fs.unlink(pinitPath)
     }
