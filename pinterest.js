@@ -8,21 +8,40 @@ const PingSlack = require('./services/pingSlack').pingSlack
 
 module.exports.call = async (event, context) => {
   try {
-    // download file
-    const downloadResp = await axios({
+    ///// pinit_main START /////
+    // download pinit_main file
+    const downloadPinitMainResp = await axios({
+      method: 'GET',
+      url: 'https://assets.pinterest.com/js/pinit_main.js',
+      responseType: 'stream'
+    })
+    const pinitMainPath = path.resolve(__dirname, 'tmp', 'pinit_main.js')
+
+    // write to file
+    await downloadPinitMainResp.data.pipe(fs.createWriteStream(pinitMainPath))
+
+    // upload to s3
+
+    // delete file
+    await fs.unlink(pinitMainPath)
+    ///// pinit_main END /////
+
+    ///// pinit file START /////
+    // download pinit file
+    const downloadPinitResp = await axios({
       method: 'GET',
       url: 'https://assets.pinterest.com/js/pinit.js',
       responseType: 'stream'
     })
 
-    const filepath = path.resolve(__dirname, 'tmp', 'pinit.js')
+    const pinitPath = path.resolve(__dirname, 'tmp', 'pinit.js')
 
     // write to file
-    await downloadResp.data.pipe(fs.createWriteStream(filepath))
+    await downloadPinitResp.data.pipe(fs.createWriteStream(pinitPath))
 
     // change file content
     const options = {
-      files: filepath,
+      files: pinitPath,
       from: '//assets.pinterest.com/js/pinit_main.js',
       to: process.env.pinitMainJsPath,
     }
@@ -31,7 +50,8 @@ module.exports.call = async (event, context) => {
     // upload file to S3
 
     // delete file
-    await fs.unlink(filepath)
+    await fs.unlink(pinitPath)
+    ///// pinit file END /////
 
     return {
       statusCode: 200,
@@ -40,8 +60,13 @@ module.exports.call = async (event, context) => {
       }),
     }
   } catch (err) {
-    // delete file if fail
-    await fs.unlink(filepath)
+    // delete files if fail
+    if (pinitMainPath != undefined) {
+      await fs.unlink(pinitMainPath)
+    }
+    if (pinitPath != undefined) {
+      await fs.unlink(pinitPath)
+    }
 
     console.log('err', err)
     return {
