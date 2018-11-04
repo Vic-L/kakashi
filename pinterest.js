@@ -12,7 +12,8 @@ module.exports.call = async (event, context) => {
   // TODO validate pinitMainJsPath does not start with /
 
   //  define paths here so that can unlink file in catch block
-  const pinitPath = path.resolve(__dirname, 'tmp', 'pinit.js')
+  // lambda support /tmp for now
+  const pinitPath = '/tmp'
 
   try {
     // s3 setup
