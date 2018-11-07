@@ -36,7 +36,16 @@ module.exports.call = async (event, context) => {
     })
 
     // write to file
-    await downloadFBSDKResp.data.pipe(fs.createWriteStream(facebookSDKPath))
+    downloadFBSDKResp.data.pipe(fs.createWriteStream(facebookSDKPath))
+    await new Promise((resolve, reject) => {
+      downloadFBSDKResp.data.on('end', () => {
+        resolve()
+      })
+
+      downloadFBSDKResp.data.on('error', () => {
+        reject()
+      })
+    })
 
     // change file content
     const options = {

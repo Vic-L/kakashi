@@ -50,7 +50,16 @@ module.exports.call = async (event, context) => {
     })
 
     // write to file
-    await downloadPinitResp.data.pipe(fs.createWriteStream(pinitPath))
+    downloadPinitResp.data.pipe(fs.createWriteStream(pinitPath))
+    await new Promise((resolve, reject) => {
+      downloadPinitResp.data.on('end', () => {
+        resolve()
+      })
+
+      downloadPinitResp.data.on('error', () => {
+        reject()
+      })
+    })
 
     // change file content
     const options = {
