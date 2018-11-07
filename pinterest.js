@@ -2,7 +2,6 @@
 
 const axios = require('axios')
 const fs = require('fs')
-const path = require('path')
 const replace = require('replace-in-file')
 const PingSlack = require('./services/pingSlack').pingSlack
 const aws = require('aws-sdk')

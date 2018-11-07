@@ -1,7 +1,6 @@
 'use strict'
 
 const axios = require('axios')
-const path = require('path')
 const PingSlack = require('./services/pingSlack').pingSlack
 const aws = require('aws-sdk')
 
