@@ -4,6 +4,7 @@ const axios = require('axios')
 const fs = require('fs')
 const replace = require('replace-in-file')
 const PingSlack = require('./services/pingSlack').pingSlack
+const WriteToFile = require('./services/writeToFile').writeToFile
 const aws = require('aws-sdk')
 
 module.exports.call = async (event, context) => {
@@ -50,16 +51,7 @@ module.exports.call = async (event, context) => {
     })
 
     // write to file
-    downloadPinitResp.data.pipe(fs.createWriteStream(pinitPath))
-    await new Promise((resolve, reject) => {
-      downloadPinitResp.data.on('end', () => {
-        resolve()
-      })
-
-      downloadPinitResp.data.on('error', () => {
-        reject()
-      })
-    })
+    await WriteToFile(downloadPinitResp.data, pinitPath)
 
     // change file content
     const options = {
