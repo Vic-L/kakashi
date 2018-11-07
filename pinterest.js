@@ -13,7 +13,7 @@ module.exports.call = async (event, context) => {
 
   //  define paths here so that can unlink file in catch block
   // lambda support /tmp for now
-  const pinitPath = '/tmp'
+  const pinitPath = '/tmp/pinit.js'
 
   try {
     // s3 setup
