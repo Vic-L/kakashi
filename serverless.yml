@@ -25,6 +25,7 @@ provider:
     twitterWidgetJsPath: ${self:custom.envVar.twitterWidgetJsPath}
     pinitJsPath: ${self:custom.envVar.pinitJsPath}
     pinitMainJsPath: ${self:custom.envVar.pinitMainJsPath}
+    facebookSDKJSPath: ${self:custom.envVar.facebookSDKJSPath}
     s3Bucket: ${self:custom.envVar.s3Bucket}
     s3Region: ${self:custom.envVar.s3Region}
     s3AccessKeyId: ${self:custom.envVar.s3AccessKeyId}
@@ -39,11 +40,15 @@ functions:
     handler: twitter.call
     events:
       - schedule: rate(1 day)
+  facebook:
+    handler: facebook.call
+    events:
+      - schedule: rate(1 day)
       ## uncomment for development
-      - http:
-          path: '/test'
-          method: get
-          cors: true
+      # - http:
+      #     path: '/test'
+      #     method: get
+      #     cors: true
 
 plugins:
   - serverless-offline
