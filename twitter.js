@@ -8,10 +8,6 @@ const aws = require('aws-sdk')
 module.exports.call = async (event, context) => {
   // TODO validate twitterWidgetJsPath does not start with /
 
-  // define paths here so that can unlink file in catch block
-  // lambda support /tmp for now
-  const twitterWidgetPath = '/tmp'
-
   try {
     // s3 setup
     const s3 = new aws.S3({
