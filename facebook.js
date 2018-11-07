@@ -53,7 +53,7 @@ module.exports.call = async (event, context) => {
     await s3.upload(s3Params).promise()
 
     // delete file
-    // await fs.unlink(facebookSDKPath)
+    await fs.unlink(facebookSDKPath)
     ///// facebookSDK file END /////
 
     const attachment = {}
